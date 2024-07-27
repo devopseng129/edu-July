@@ -1,0 +1,27 @@
+Jenkins:
+apt install openjdk-17-jre-headless 
+
+https://www.jenkins.io/doc/book/installing/linux/#debianubuntu
+
+
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+sudo apt-get update
+sudo apt-get install jenkins
+
+systemctl status jenkins
+
+
+localhost:8080
+1. Change jenkins default port
+systemctl daemon-reload
+systemctl restart jenkins
+2. Jenkins jobs/project/builds
+3. Jekins home directory
+4. Jenkins user database
+5. Jenkins security
+6. Authentication: who can login
+7. Authorization : what a logged in user can do.
