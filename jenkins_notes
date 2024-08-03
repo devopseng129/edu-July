@@ -25,3 +25,7 @@ systemctl restart jenkins
 5. Jenkins security
 6. Authentication: who can login
 7. Authorization : what a logged in user can do.
+
+Automated pipeline trigger:
+--------------------------------
+1. Poll SCM
