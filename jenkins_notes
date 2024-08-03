@@ -29,3 +29,4 @@ systemctl restart jenkins
 Automated pipeline trigger:
 --------------------------------
 1. Poll SCM
+2. webhook trigger
