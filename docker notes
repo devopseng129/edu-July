@@ -1,0 +1,123 @@
+
+mobaxterm: https://mobaxterm.mobatek.net/download-home-edition.html
+What is containerization?
+Difference between VM and container?
+containerisation: rkt, lxd, docker, linux
+what is docker?
+It is a containerisation tool.
+Dockerhub?
+docker images?
+containers?
+
+
+>developer while devloping gaming apps uses:
+java 11, php6.0, ubuntu, nginx, code.war
+> testing
+java 21, php8.0, RHEL, tomcat, code.war
+> operations
+java 21, php9.0, RHEL, tomcat9, code.war
+
+> Created one VM ==> docker host
+> have installed docker software in it.==> docker daemon
+
+> Image: It is like a configuration file which when run creates a container.
+	1. OS based image : ubuntu, centos, rhel,....
+	2. Application based image. : nginx, tomcat, httpd
+> apt install docker.io
+> docker --version
+> container lifecycle
+	1. pull image
+	2. create container
+	3. bring container up
+	4. attach container
+	5. detach from container
+	6. stop the container
+	7. remove the container
+> docker pull <image name>
+> docker run --name cont1 centos
+> docker run command will look for image locally, if image is not present, it will first pull image and than run it.
+> docker ps -a ==> all container available in your machine
+> docker ps ==> only UP containers.
+> docker run -it --name cont2 centos #foreground mode
+> foreground mode:
+> docker conatiner will be created
+> container will be up and running
+> you will have access to docker container
+> you will be attached to docker container terminal.
+> Attach to contienr ==> docker attach 903e6bfce906/cont name
+> detached mode
+> docker exec -it 4d0e32de7128 bash ==> for container created in detached mode.
+
+> In order to detach from an application based conatiner you use exit command or ctrlpctrlq
+> In order to detach from an OS based conatiner if  use exit command than container gets stopped hence we use only ctrlpctrlq\
+> containers which are creayed in foreground or detachecd mode and is in exited state can be broup up but containers which are created in foreground or detachecd mode and is in exited state  can't be brought up 
+> docker stop 4d0e32de7128
+> docker start 4d0e32de7128
+> docker rm 9d9338cf5e14
+> port mapping or port binding: It is a networking technology by using which you will be able to route traffic from your vm to container
+> can be done by 2 ways:
+1. -p : In this case user will CHOOSE any available port in virtual machine and map it with container port.
+	docker run -d --name ws1 -p 8989:80 nginx where 8989 is a port in vm and 80 is a port in docker container.
+2. -P: In this case docker will allocate any available port in virtual machine and map it with container port.
+	docker run -d --name ws1 -P nginx
+
+>>>Docker volumes
+> It is used to preserve/copy the data from a specific directory in a container to your VM.
+> This is used to copy files from virtual machine to a specific directory in container.
+> docker volume create myvol
+>  docker run -it --name cont2 -v myvol:/tmp centos, where myvol is name of volume and /tmp is a directory in container.
+
+>>>> Bind mount
+> Any directory of your choice could be used to preserve data in virtual machine.
+> you dont need any volume in this case
+
+Dockerfile:
+-----------
+Dockerfile is a simple text file, when it is build creates an image.
+Important points about dockerfile:
+> FROM: what will be the base image of your container, this base image will be further customized to create your own docker image.
+> RUN: It is used to execute linux commands to install a package, uninstall a package, create a directory, create users, give permisions, etc.....
+> ENV: defines variables and values can be passed in dockerfile. example: variablename value
+> WORKDIR: used to specifiy directory where commands will be executed
+> COPY: copy a file from dockerhost to docker container using dockerfile.
+> ADD: copy a file from dockerhost to docker container using dockerfile also it will unzip or untar files if its zipper or tarred.
+> CMD: Will allow to execute a command when container is launched.
+> ENTRYPOINT: Will allow to execute a command when container is launched. and it enables you to overwrite dockerfile command during container launch.
+> EXPOSE: portnumber to the container application
+> VOLUME: to preserve data of a directory as container is launched.
+
+
+Dockerimage push to dockerhub:
+> logged into dockerhub web application
+> created a repository
+> docker push devopseng129/sampletestrepo_eubatch:tagname
+
+Docker swarm
+> Before docker swarm, we are working on 1 vm 1 containers.
+> we need a tool to create n no. of containers using single image single command.
+> we need a tool to distribute container across multiple vms.
+> we need a tool to increase or decrease count of containers.
+> we need a tool to maintain high availability.
+> we need a tool to assist in rolling update and rollback.
+
+docker swarm follows leader-worker architecture:
+-------------------------------------------------
+.docker swarm is installed with docker only.but it remains inactive till the time you activate it.
+> docker swarm init
+> docker node ls
+> docker service ls
+
+leader/manager vm: 
+------------------
+> when swarm init is executed/ docker swarm is initialised machine becomes manager/leader.
+> No swarm command will be executed in worker machines.
+> It will be the task of manager vm to execute all orchetration activities.
+
+worker vm:
+-----------
+> You can have many worker vms.
+> on worker vms all tasks will be executed/ conainer will be running.
+> The leader will share a token, any nachine which uses that token, becomes worker.
+-------------------------------------------------------------------------------------
+rollong update: change of application version fr4om 1 to another(higher level).
+rollback: consider that you have performed rolling update and newer version of application started failing you will perform rollback.
