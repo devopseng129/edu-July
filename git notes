@@ -1,0 +1,166 @@
+Solution provided by a version control system(VCS)/source code managment system(SCM):
+- A developer will be able to manage or track changes to the code.
+- When multiple developer works have to work simulteneously , they will be able to contribute to final code.
+- who made changes in code base
+- To manage older versions of application code.
+
+what is a version control system:
+---------------------------------
+- A system that documents all changes made ina file or a set of files.
+- multiple revisions of files can be managed.
+- mutiple files from multiple users.
+
+Type of a version control system:
+----------------------------------
+1. Local version control system:
+- 1 to 1 interaction between developer and lvcs
+
+challenges:
+- It does not guarantee safety of your code(single point of failure)
+- Multiple developers working parallely was not not possible.
+
+2. Centralised version control system
+- Multiple developers are working together.
+eg: CVS, Subversion, perforce, TFS
+challenges:
+- Developers should always be connected over network
+- Server had a single point of failure.
+
+3. Distributed version control system
+- This system is distributed in nature
+- All developers can collabarate in development.
+eg: github, mercurial, gitlab, bitbucket, butkeeper, Bazzar etc.
+
+
+what is GIT?
+--------------
+- Its an open source software developed by Linus Torvalds.
+- Distributed VCS
+- Tool which tracks all changes which you have done in your code/files.
+- working directory: Directory whre all your code files are present
+- Staging area: Its a virtual area which acts as a buffer before you push code to local repository
+- local repository: Its a repository which contains all commited code.
+
+
+Github:
+---------
+It is a website where we host all our git codes.
+
+
+scenrio1: Create a working directory
+> mkdir git-demo-1252024
+> cd git-demo-1252024
+
+
+Scenerio2: Git installation
+ubuntu:
+--------
+> apt-get update
+> apt-get install git -y
+
+Centos/RHEL
+> yum install git -y
+> git --version
+
+windows:
+https://git-scm.com/download/win
+
+
+scenerio 3:
+initialise/configure local repository in working directory
+
+git init
+
+git config --global user.email test@email.com
+git config --global user.name test
+
+
+scenerio4: create a file and add it to local repository
+
+> vi testfile 
+> esc :wq
+> git status
+> git add testfile
+> git status
+> git commit -m "1st commit"
+> git ls-files
+
+scenerio 5: ids to commit
+git log --oneline
+git show <commit id>
+git log
+
+
+scentio 6: checking staged and unstaged changes
+git diff <filename> ==> command to check changes made in file when file is in working directory
+git diff --staged testfile ==> command to check changes made in file when file is in staging area.
+
+scenerio 7: Deletion of file:
+how to delete a file from wd and local repo
+> git rm testfile
+how to delete a file from local repo only
+> git rm --cached testfile
+
+
+scenerio 8: Ignoring files: 
+vi .gitignore
+*.class
+temp
+git add .gitinore
+git commit 
+
+
+scenetio 9: Revert changes in git
+git revert commit id
+
+scenerio 10: reset
+git reset commit id --hard
+
+scenerio 11: Create your github account
+
+scenerio: 12: Branching
+
+> We can have multiple child branch but only one branch either master or main can deploy code to production environment.
+> It helps in parallel development.
+> Scope of development varies across brabches.
+> git branch b1 master
+> git checkout b1
+> switched to b1 branch
+> vi sample3.txt
+> git add ; git commit
+> git checkout master
+> git merge b1 master
+
+
+scenerio 13:
+Resolving merge conflicts
+> Made changes in same file in 2  branches, while merge we get conflicts and to resolve conflict,edit file and modify with necessary changes.
+> After you modify, add and commit to resolve conflicts.
+
+scenerio 14: Delete a branch
+git branch -D b1
+
+# Stashing : It is a git feature to hide incomplete work/development.
+git stash ==> stashes/hides all files in working directory
+git stash pop ==> brings all file from stashing area back to working dir
+
+git stash -p ==> partial stashing
+git stash drop <stashnumber> ==> to retrieve one file at a time
+
+git stash pop ==> It brings stashed file back to working directory and clears stashing area
+git stash apply ==> It brings stashed file back to working directory and does not clear stashing area
+
+
+scenerio 14: Working with remote repository
+git clone <repository url>  ==> execute to create full copy of remote repo in my local
+git push originmain # origin is a variable point to remote repo url
+
+scenerio 15:
+git developer token
+
+scenerio 16:
+git pull is used to pull updated code from remote to local
+
+scenerio 17:
+git fetch will just show what will be pulled when pull command is executed
+pull=fetch+merge
