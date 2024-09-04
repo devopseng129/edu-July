@@ -1,0 +1,107 @@
+Ansible:
+---------
+> configuration managment tool: It is a tool which helps in managing configuration of infra.
+> puppet, saltstack, chef, ansible
+> Ansible architecture:
+> push based architecture
+> Master-agent configuration
+> It is agentless. you do not need to install any ansible agemt software in agent servers.It works only on ssh protocol.
+
+> Master is always linux agent can be linux or wiwndows
+
+master and agent
+> vi /etc/ssh/sshd_config
+PasswordAuthentication yes
+
+>  vi /etc/sudoers
+ec2-user ALL=NOPASSWD:  ALL
+
+> passwd ec2-user
+
+>systemctl restart sshd
+
+master
+> su - ec2-user
+> ssh-keygen
+> ssh-copy-id ec2-user@172.31.5.119
+> ssh 'ec2-user@172.31.5.119'
+> yum install ansible -y
+>  vi hosts
+
+
+> Ansible adhoc commands:
+>  ansible -m user -a "name=jane password=test" webservers --become
+> ansible -m ping webservers
+> ansible -m command -a "uptime" webservers
+
+
+
+
+playbook: book of plays=actions
+
+playbook is written in yaml(yaml aint a markup languaguage)
+key value pair
+
+file.yml/file.yaml
+
+name: Jane
+address: India
+profession: 
+	- cinema
+	- sports
+	- gaming
+
+
+playbook1.yml
+---
+- hosts: webservers
+  become: true
+  become_user: root
+  vars:
+    pkg: httpd
+    dest_path: /var/lib/html
+  tasks:
+  - name: Install httpd package
+    yum:
+      name: "{{ pkg }}"
+      state: present
+  - name: Start httpd services
+    service:
+      name: "{{ pkg }}"
+      state: started
+  - name: copy files from one server to another
+    copy:
+      src: /etc/ansible/index.html
+      dest: "{{ dest_path }}"
+    notify: restart httpd
+  handlers:
+  - name: restart httpd
+    service: 
+      name: "{{ pkg }}"
+      state: restarted
+~
+
+
+> ansible is idempotent
+> webserver: server where we host applications accessible by end users.examples: tomcat9,httpd, nginx, glassfish, MSI
+> tomcat9 home directory is : /usr/share/tomcat9/webapps/
+
+
+whenever we talk about deployment:
+1. we take package from web and install/push/publish it on agent server
+>https://tomcat.apache.org/tomcat-9.0-doc/appdev/sample/
+2. copy files from one server to another
+
+
+handlers:
+is like if statetment/condition
+
+
+    pkg: httpd
+    url_path: https://tomcat.apache.org/tomcat-9.0-doc/appdev/sample/sample.war
+    dest_path: /usr/share/tomcat9/webapps/
+
+
+
+
+files handlers vars tasks 
